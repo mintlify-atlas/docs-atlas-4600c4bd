@@ -1,0 +1,367 @@
+---
+title: "Customization"
+description: "Customize colors, styles, and animations in the Advice Generator"
+---
+
+## Overview
+
+The Advice Generator is built with SCSS and uses a clean, modern design system. This guide shows you how to customize colors, fonts, animations, and component styles.
+
+## Color Customization
+
+All colors in the application use HSL values defined in the style guide. You can find these in src/stylesheets/styles.scss.
+
+### Primary Colors
+
+The application uses two primary colors:
+
+<CodeGroup>
+
+```scss Light Cyan
+// Light Cyan - Used for advice text
+color: hsl(193, 38%, 86%);
+```
+
+```scss Neon Green
+// Neon Green - Used for header and button
+color: hsl(150, 100%, 66%);
+```
+
+</CodeGroup>
+
+### Neutral Colors
+
+<CodeGroup>
+
+```scss Dark Blue
+// Dark Blue - Body background
+background-color: hsl(218, 23%, 16%);
+```
+
+```scss Dark Grayish Blue
+// Dark Grayish Blue - Card background
+background-color: hsl(217, 19%, 24%);
+```
+
+```scss Grayish Blue
+// Grayish Blue - Alternative neutral (not currently used)
+hsl(217, 19%, 38%)
+```
+
+</CodeGroup>
+
+### Changing Colors
+
+To customize colors, edit the HSL values in src/stylesheets/styles.scss:
+
+<Steps>
+  <Step title="Body Background">
+    Modify the body background color at styles.scss:9:
+    ```scss
+    body {
+        background-color: hsl(218, 23%, 16%); // Change this
+    }
+    ```
+  </Step>
+  
+  <Step title="Card Background">
+    Change the card background at styles.scss:17:
+    ```scss
+    .card {
+        background-color: hsl(217, 19%, 24%); // Change this
+    }
+    ```
+  </Step>
+  
+  <Step title="Accent Color">
+    Update the neon green accent color at styles.scss:31 and :73:
+    ```scss
+    .card-header h1 {
+        color: hsl(150, 100%, 66%); // Header color
+    }
+    
+    .card-footer button {
+        background-color: hsl(150, 100%, 66%); // Button color
+    }
+    ```
+  </Step>
+</Steps>
+
+<Tip>
+HSL colors are easier to adjust than hex codes. Modify:
+- **Hue** (0-360): Changes the color
+- **Saturation** (0-100%): Controls color intensity
+- **Lightness** (0-100%): Controls brightness
+</Tip>
+
+## Font Customization
+
+### Current Font
+
+The application uses the **Outfit** font family from Google Fonts (imported at styles.scss:1):
+
+```scss
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap');
+
+body {
+    font-family: 'Outfit', sans-serif;
+}
+```
+
+<Note>
+The style guide originally specified Manrope with weight 800, but the implementation uses Outfit with weights 400 and 700.
+</Note>
+
+### Changing Fonts
+
+<Steps>
+  <Step title="Update Google Fonts Import">
+    Replace the `@import` URL at the top of styles.scss:
+    ```scss
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    ```
+  </Step>
+  
+  <Step title="Update Font Family">
+    Change the font-family property in the body selector:
+    ```scss
+    body {
+        font-family: 'Roboto', sans-serif;
+    }
+    ```
+  </Step>
+</Steps>
+
+### Font Sizes
+
+The advice text uses a font size of 28px (styles.scss:45):
+
+```scss
+.card-body p {
+    font-size: 28px; // Main advice text
+}
+```
+
+The header uses 1rem with letter spacing (styles.scss:35-36):
+
+```scss
+.card-header h1 {
+    font-size: 1rem;
+    letter-spacing: 5px;
+}
+```
+
+## Animation Customization
+
+### Loading Animation
+
+The dice button rotates when loading new advice. The animation is defined at styles.scss:97-117:
+
+<CodeGroup>
+
+```scss Current Animation
+@keyframes load {
+    0% {
+        transform: translateX(-50%) rotate(0);
+    }
+    25% {
+        transform: translateX(-50%) rotate(45deg);
+    }
+    50% {
+        transform: translateX(-50%) rotate(90deg);
+    }
+    75% {
+        transform: translateX(-50%) rotate(135deg);
+    }
+    100% {
+        transform: translateX(-50%) rotate(180deg);
+    }
+}
+
+button.load {
+    animation: load 0.3s infinite;
+}
+```
+
+```scss Faster Rotation
+// Speed up the animation
+button.load {
+    animation: load 0.15s infinite;
+}
+```
+
+```scss Full Rotation
+// Make it rotate 360 degrees
+@keyframes load {
+    0% {
+        transform: translateX(-50%) rotate(0);
+    }
+    100% {
+        transform: translateX(-50%) rotate(360deg);
+    }
+}
+```
+
+</CodeGroup>
+
+### Hover Effects
+
+The button has a hover effect with glow (styles.scss:85-88):
+
+```scss
+button:hover {
+    background-color: hsl(150, 100%, 75%);
+    box-shadow: 0 0 40px hsl(150, 100%, 75%);
+}
+```
+
+Customize the glow effect:
+
+<CodeGroup>
+
+```scss Larger Glow
+button:hover {
+    box-shadow: 0 0 60px hsl(150, 100%, 75%);
+}
+```
+
+```scss Different Color
+button:hover {
+    background-color: hsl(193, 100%, 75%);
+    box-shadow: 0 0 40px hsl(193, 100%, 75%);
+}
+```
+
+</CodeGroup>
+
+## Component Customization
+
+### Card Dimensions
+
+The card is responsive with max width (styles.scss:22-23):
+
+```scss
+.card {
+    width: 90%;
+    max-width: 500px;
+}
+```
+
+To make the card larger:
+
+```scss
+.card {
+    width: 95%;
+    max-width: 650px; // Increase max width
+}
+```
+
+### Border Radius
+
+The card has rounded corners (styles.scss:25):
+
+```scss
+.card {
+    border-radius: 10px;
+}
+```
+
+Make it more rounded:
+
+```scss
+border-radius: 20px; // More rounded
+```
+
+### Button Size
+
+The dice button is circular with fixed dimensions (styles.scss:69-70):
+
+```scss
+button {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+```
+
+Make it larger:
+
+```scss
+button {
+    width: 80px;
+    height: 80px;
+}
+```
+
+### Shadow Effects
+
+The card has a subtle shadow (styles.scss:26):
+
+```scss
+.card {
+    box-shadow: 0 0 50px hsla(220, 16%, 11%, 0.5);
+}
+```
+
+Increase shadow intensity:
+
+```scss
+box-shadow: 0 0 70px hsla(220, 16%, 11%, 0.8);
+```
+
+## SCSS Variables
+
+<Warning>
+The current implementation doesn't use SCSS variables. Consider refactoring to use variables for easier customization:
+</Warning>
+
+```scss
+// Define variables at the top of your SCSS file
+$color-primary: hsl(150, 100%, 66%);
+$color-text: hsl(193, 38%, 86%);
+$color-bg-dark: hsl(218, 23%, 16%);
+$color-bg-card: hsl(217, 19%, 24%);
+
+$font-family: 'Outfit', sans-serif;
+$font-size-advice: 28px;
+$font-size-header: 1rem;
+
+$card-max-width: 500px;
+$button-size: 70px;
+$border-radius: 10px;
+
+// Then use them throughout your styles
+body {
+    background-color: $color-bg-dark;
+    font-family: $font-family;
+}
+
+.card {
+    background-color: $color-bg-card;
+    max-width: $card-max-width;
+    border-radius: $border-radius;
+}
+```
+
+## Responsive Design
+
+The application is mobile-first and responsive:
+
+- **Mobile**: Designed for 375px width
+- **Desktop**: Designed for 1440px width
+- **Card width**: 90% on mobile, capped at 500px on desktop
+
+<Tip>
+The card uses viewport-relative sizing, so it automatically adapts to different screen sizes without media queries.
+</Tip>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="API Integration" icon="plug" href="/guides/api-integration">
+    Learn about the Advice Slip API integration
+  </Card>
+  <Card title="Deployment" icon="rocket" href="/guides/deployment">
+    Deploy your customized application
+  </Card>
+</CardGroup>

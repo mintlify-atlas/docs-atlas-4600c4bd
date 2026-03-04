@@ -1,97 +1,219 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: Welcome to Advice Generator
+description: A beautiful React application that delivers random advice with style
+mode: custom
 ---
 
-## Setting up
+<div className="relative overflow-hidden bg-gradient-to-br from-[#1f2632] via-[#2a3342] to-[#1f2632] dark:from-[#0f1117] dark:via-[#1a1d27] dark:to-[#0f1117] py-20">
+  <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjAzKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-40"></div>
+  <div className="relative max-w-6xl mx-auto px-6 sm:px-8 lg:px-12">
+    <div className="text-center">
+      <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6">
+        Advice Generator
+      </h1>
+      <p className="text-xl sm:text-2xl text-gray-300 dark:text-gray-400 max-w-3xl mx-auto mb-10">
+        Get inspired with random advice powered by the Advice Slip API. A modern React application with a beautiful UI.
+      </p>
+      <div className="flex flex-wrap justify-center gap-4">
+        <a
+          href="/quickstart"
+          className="inline-flex items-center px-8 py-3.5 rounded-lg bg-[#52ffa8] hover:bg-[#45e094] text-[#1f2632] font-semibold text-lg transition-colors no-underline"
+        >
+          Get Started
+        </a>
+        <a
+          href="/introduction"
+          className="inline-flex items-center px-8 py-3.5 rounded-lg border-2 border-white/30 bg-white/10 hover:bg-white/20 text-white font-semibold text-lg transition-colors no-underline backdrop-blur-sm"
+        >
+          Learn More
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
-Get your documentation site up and running in minutes.
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <div className="text-center mb-12">
+    <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+      Quick start
+    </h2>
+    <p className="text-lg text-gray-600 dark:text-gray-400">
+      Get the Advice Generator running in minutes
+    </p>
+  </div>
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
+  <Steps>
+    <Step title="Clone the repository">
+      Start by cloning the project from GitHub:
+      
+      ```bash
+      git clone https://github.com/IscMiguelAngel/advice-generator.git
+      cd advice-generator
+      ```
+    </Step>
 
-## Make it yours
+    <Step title="Install dependencies">
+      Install the required packages using npm:
+      
+      ```bash
+      npm install
+      ```
 
-Design a docs site that looks great and empowers your users.
+      This will install React 18, React DOM, Vite, and SASS.
+    </Step>
 
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
-  </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
-  </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
-  </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
+    <Step title="Start the development server">
+      Run the Vite development server:
+      
+      ```bash
+      npm run dev
+      ```
 
-## Create beautiful pages
+      Your app will be available at `http://localhost:5173`
+    </Step>
 
-Everything you need to create world-class documentation.
+    <Step title="Try it out">
+      Click the dice button to fetch a new piece of advice from the Advice Slip API. The button animates while loading!
+      
+      <Note>
+        The app fetches advice from `https://api.adviceslip.com/advice` — no API key required.
+      </Note>
+    </Step>
+  </Steps>
+</div>
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <div className="text-center mb-12">
+    <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+      Key features
+    </h2>
+    <p className="text-lg text-gray-600 dark:text-gray-400">
+      Everything you need for a modern advice app
+    </p>
+  </div>
 
-## Need inspiration?
+  <CardGroup cols={2}>
+    <Card title="Advice Slip API" icon="lightbulb" href="/guides/api-integration">
+      Fetches random advice from a free, public API with no authentication required
+    </Card>
+    <Card title="Responsive Design" icon="mobile" href="/components/styling">
+      Mobile-first design that looks great on any device, built with SCSS
+    </Card>
+    <Card title="Loading States" icon="spinner" href="/components/card">
+      Animated dice button provides visual feedback while fetching new advice
+    </Card>
+    <Card title="Modern Stack" icon="code" href="/development/setup">
+      Built with React 18, Vite for fast development, and SASS for styling
+    </Card>
+  </CardGroup>
+</div>
 
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <div className="text-center mb-12">
+    <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+      Explore the documentation
+    </h2>
+    <p className="text-lg text-gray-600 dark:text-gray-400">
+      Learn how to customize and extend the Advice Generator
+    </p>
+  </div>
+
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <a
+      href="/components/card"
+      className="group block rounded-2xl border border-gray-200 dark:border-[#27272a] hover:border-[#52ffa8] dark:hover:border-[#52ffa8] overflow-hidden transition-colors no-underline bg-white dark:bg-[#1a1d27]"
+    >
+      <div className="p-6">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+          Card Component
+        </h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+          Deep dive into the main Card component that handles state, API calls, and rendering
+        </p>
+        <div className="flex items-center text-sm text-gray-500 dark:text-gray-500 group-hover:text-[#52ffa8] transition-colors">
+          Explore component
+          <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+      </div>
+    </a>
+
+    <a
+      href="/guides/customization"
+      className="group block rounded-2xl border border-gray-200 dark:border-[#27272a] hover:border-[#52ffa8] dark:hover:border-[#52ffa8] overflow-hidden transition-colors no-underline bg-white dark:bg-[#1a1d27]"
+    >
+      <div className="p-6">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+          Customization Guide
+        </h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+          Learn how to customize colors, fonts, animations, and layout to make it your own
+        </p>
+        <div className="flex items-center text-sm text-gray-500 dark:text-gray-500 group-hover:text-[#52ffa8] transition-colors">
+          Customize your app
+          <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+      </div>
+    </a>
+
+    <a
+      href="/guides/deployment"
+      className="group block rounded-2xl border border-gray-200 dark:border-[#27272a] hover:border-[#52ffa8] dark:hover:border-[#52ffa8] overflow-hidden transition-colors no-underline bg-white dark:bg-[#1a1d27]"
+    >
+      <div className="p-6">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+          Deployment
+        </h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+          Deploy your Advice Generator to Vercel, Netlify, or any static hosting platform
+        </p>
+        <div className="flex items-center text-sm text-gray-500 dark:text-gray-500 group-hover:text-[#52ffa8] transition-colors">
+          Deploy now
+          <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+      </div>
+    </a>
+
+    <a
+      href="/development/project-structure"
+      className="group block rounded-2xl border border-gray-200 dark:border-[#27272a] hover:border-[#52ffa8] dark:hover:border-[#52ffa8] overflow-hidden transition-colors no-underline bg-white dark:bg-[#1a1d27]"
+    >
+      <div className="p-6">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+          Project Structure
+        </h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+          Understand the codebase organization and where everything lives
+        </p>
+        <div className="flex items-center text-sm text-gray-500 dark:text-gray-500 group-hover:text-[#52ffa8] transition-colors">
+          View structure
+          <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div className="mt-20 mb-16 max-w-5xl mx-auto px-6">
+  <div className="rounded-2xl border border-gray-200 dark:border-[#27272a] bg-gradient-to-br from-[#52ffa8]/10 to-[#52ffa8]/5 dark:from-[#52ffa8]/10 dark:to-[#52ffa8]/5 p-8 md:p-12 text-center">
+    <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+      Ready to get started?
+    </h2>
+    <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
+      Follow the quickstart guide to have your Advice Generator running in under 5 minutes.
+    </p>
+    <a
+      href="/quickstart"
+      className="inline-flex items-center px-8 py-3.5 rounded-lg bg-[#52ffa8] hover:bg-[#45e094] text-[#1f2632] font-semibold text-lg transition-colors no-underline"
+    >
+      Start Building
+    </a>
+  </div>
+</div>

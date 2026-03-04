@@ -1,0 +1,166 @@
+---
+title: 'Development Setup'
+description: 'Set up your local development environment for the Advice Generator project'
+icon: 'wrench'
+---
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed on your system:
+
+<CardGroup cols={2}>
+  <Card title="Node.js" icon="node-js" iconType="duotone">
+    Version 14.0 or higher recommended
+  </Card>
+  <Card title="npm" icon="box" iconType="duotone">
+    Comes bundled with Node.js
+  </Card>
+</CardGroup>
+
+<Tip>
+  You can verify your Node.js and npm versions by running:
+  ```bash
+  node --version
+  npm --version
+  ```
+</Tip>
+
+## Installation
+
+### 1. Clone the Repository
+
+Clone the project repository to your local machine:
+
+```bash
+git clone https://github.com/IscMiguelAngel/advice-generator.git
+cd advice-generator
+```
+
+### 2. Install Dependencies
+
+Install all required npm packages using npm:
+
+```bash
+npm install
+```
+
+This will install the following dependencies:
+
+<AccordionGroup>
+  <Accordion title="Production Dependencies">
+    - **react** (^18.2.0) - Core React library
+    - **react-dom** (^18.2.0) - React DOM renderer
+    - **sass** (^1.55.0) - CSS preprocessor for styling
+  </Accordion>
+  
+  <Accordion title="Development Dependencies">
+    - **@types/react** (^18.0.17) - TypeScript definitions for React
+    - **@types/react-dom** (^18.0.6) - TypeScript definitions for React DOM
+    - **@vitejs/plugin-react** (^2.1.0) - Vite plugin for React support
+    - **vite** (^3.1.0) - Build tool and development server
+  </Accordion>
+</AccordionGroup>
+
+## Vite Configuration
+
+The project uses Vite as its build tool and development server. The configuration is minimal and focused:
+
+```javascript vite.config.js
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()]
+})
+```
+
+<Info>
+  Vite provides:
+  - Lightning-fast Hot Module Replacement (HMR)
+  - Optimized production builds
+  - Native ES modules support
+  - Out-of-the-box JSX/TSX support
+</Info>
+
+## SASS Setup
+
+The project uses SASS for styling with the following features:
+
+### SASS Configuration
+
+SASS is already included in the dependencies and works automatically with Vite:
+
+- **Main stylesheet**: `src/stylesheets/styles.scss`
+- **Import method**: Direct import in `main.jsx`
+- **Preprocessing**: Handled automatically by Vite
+
+### Key SASS Features Used
+
+<CodeGroup>
+```scss Nesting
+.card {
+  background-color: hsl(217, 19%, 24%);
+  
+  &-header {
+    padding: 40px 20px 0 20px;
+    h1 {
+      color: hsl(150, 100%, 66%);
+    }
+  }
+  
+  &-body {
+    padding: 0 20px;
+  }
+}
+```
+
+```scss Animations
+@keyframes load {
+  0% { transform: translateX(-50%) rotate(0); }
+  25% { transform: translateX(-50%) rotate(45deg); }
+  50% { transform: translateX(-50%) rotate(90deg); }
+  75% { transform: translateX(-50%) rotate(135deg); }
+  100% { transform: translateX(-50%) rotate(180deg); }
+}
+```
+</CodeGroup>
+
+## Starting Development
+
+Once installation is complete, start the development server:
+
+```bash
+npm run dev
+```
+
+The application will be available at `http://localhost:5173` (default Vite port).
+
+<Check>
+  Your development environment is now ready! You should see the Advice Generator interface in your browser.
+</Check>
+
+## Project Type
+
+The project is configured as an ES module:
+
+```json package.json
+{
+  "type": "module"
+}
+```
+
+This enables:
+- Native ES6 import/export syntax
+- Modern JavaScript features
+- Better tree-shaking for smaller bundles
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Project Structure" icon="folder-tree" href="/development/project-structure">
+    Learn about the codebase organization
+  </Card>
+  <Card title="Available Scripts" icon="terminal" href="/development/scripts">
+    Explore npm scripts and commands
+  </Card>
+</CardGroup>

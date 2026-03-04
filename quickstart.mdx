@@ -1,80 +1,209 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: Quickstart
+description: Get the Advice Generator app running locally in just a few minutes
 ---
 
-## Get started in three steps
+This guide will help you set up and run the Advice Generator app on your local machine. You'll have a fully functional development environment in under 5 minutes.
 
-Get your documentation site running locally and make your first customization.
+## Prerequisites
 
-### Step 1: Set up your local environment
+Before you begin, ensure you have the following installed:
+
+- **Node.js** (v14 or higher)
+- **npm** (comes with Node.js)
+- **Git** (for cloning the repository)
+
+<Note>
+  You can verify your Node.js installation by running `node --version` in your terminal.
+</Note>
+
+## Installation
+
+<Steps>
+  <Step title="Clone the repository">
+    Clone the Advice Generator repository to your local machine:
+
+    ```bash
+    git clone https://github.com/IscMiguelAngel/advice-generator.git
+    cd advice-generator
+    ```
+  </Step>
+
+  <Step title="Install dependencies">
+    Install all required npm packages:
+
+    ```bash
+    npm install
+    ```
+
+    This will install:
+    - React 18.2 and React DOM
+    - Vite for development and building
+    - SASS for CSS preprocessing
+    - Required Vite plugins
+  </Step>
+
+  <Step title="Start the development server">
+    Launch the Vite development server:
+
+    ```bash
+    npm run dev
+    ```
+
+    You should see output similar to:
+
+    ```
+    VITE v3.1.0  ready in 500 ms
+
+    ➜  Local:   http://localhost:5173/
+    ➜  Network: use --host to expose
+    ```
+  </Step>
+
+  <Step title="Open in your browser">
+    Navigate to `http://localhost:5173/` in your web browser. You should see the Advice Generator app with a card displaying random advice.
+
+    Click the dice button to fetch new advice!
+  </Step>
+</Steps>
+
+## Project structure
+
+Once installed, your project directory will look like this:
+
+```
+advice-generator/
+├── public/
+│   └── favicon.png       # App favicon
+├── src/
+│   ├── assets/           # SVG icons and images
+│   ├── components/
+│   │   └── card.jsx      # Main Card component
+│   ├── stylesheets/
+│   │   └── styles.scss   # SASS styles
+│   └── main.jsx          # App entry point
+├── index.html            # HTML template
+├── package.json          # Dependencies and scripts
+└── vite.config.js        # Vite configuration
+```
+
+## Understanding the entry point
+
+The application starts in `src/main.jsx`:
+
+```jsx src/main.jsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import Card from './components/card'
+import "./stylesheets/styles.scss"
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <Card />
+  </React.StrictMode>
+)
+```
+
+This file:
+- Uses React 18's `createRoot` API for improved performance
+- Renders the `Card` component inside React.StrictMode
+- Imports global SASS styles
+
+## Available scripts
+
+The `package.json` defines three npm scripts:
+
+<CodeGroup>
+```bash Development
+npm run dev
+```
+
+```bash Production build
+npm run build
+```
+
+```bash Preview build
+npm run preview
+```
+</CodeGroup>
+
+### Script descriptions
 
 <AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
+  <Accordion title="npm run dev">
+    Starts the Vite development server with hot module replacement (HMR). Changes to your code will automatically refresh in the browser.
   </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
+
+  <Accordion title="npm run build">
+    Creates an optimized production build in the `dist/` directory. This minifies JavaScript, optimizes assets, and prepares the app for deployment.
+  </Accordion>
+
+  <Accordion title="npm run preview">
+    Serves the production build locally for testing before deployment. Run `npm run build` first.
   </Accordion>
 </AccordionGroup>
 
-### Step 2: Deploy your changes
+## Testing the API
+
+The app fetches advice from the Advice Slip API. You can test the API directly:
+
+```bash
+curl https://api.adviceslip.com/advice
+```
+
+Expected response:
+
+```json
+{
+  "slip": {
+    "id": 117,
+    "advice": "It is easy to sit up and take notice, what's difficult is getting up and taking action."
+  }
+}
+```
+
+<Warning>
+  The Advice Slip API may cache responses briefly. If you're not seeing new advice immediately, this is normal behavior.
+</Warning>
+
+## Troubleshooting
 
 <AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+  <Accordion title="Port 5173 is already in use">
+    Vite will automatically try the next available port (5174, 5175, etc.). Check the terminal output for the correct URL.
+  </Accordion>
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+  <Accordion title="SASS compilation errors">
+    Ensure SASS is properly installed:
+    ```bash
+    npm install sass
+    ```
+  </Accordion>
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
+  <Accordion title="API not responding">
+    Check your internet connection. The Advice Slip API requires an active connection. The app will show loading states if the API is slow.
   </Accordion>
 </AccordionGroup>
-
-### Step 3: Go live
-
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
 
 ## Next steps
 
-Now that you have your docs running, explore these key features:
+Now that you have the app running, explore these topics:
 
 <CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
+  <Card title="Card component" icon="window" href="/components/card">
+    Deep dive into the Card component implementation
+  </Card>
+  <Card title="Styling" icon="palette" href="/components/styling">
+    Learn about the SASS architecture and responsive design
+  </Card>
+  <Card title="API integration" icon="plug" href="/guides/api-integration">
+    Understand how the Advice Slip API works
+  </Card>
+  <Card title="Customization" icon="wrench" href="/guides/customization">
+    Customize colors, fonts, and layout
+  </Card>
 </CardGroup>
 
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>
+<Tip>
+  Open the browser DevTools to see the network requests and component state changes as you interact with the app.
+</Tip>

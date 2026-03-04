@@ -1,0 +1,281 @@
+---
+title: 'Project Structure'
+description: 'Understanding the Advice Generator codebase organization and file structure'
+icon: 'folder-tree'
+---
+
+## Overview
+
+The Advice Generator follows a standard Vite + React project structure with organized directories for components, styles, and assets.
+
+## Root Directory
+
+```
+advice-generator/
+├── public/              # Static assets
+├── src/                 # Source code
+├── design/              # Design files
+├── index.html           # Entry HTML file
+├── package.json         # Dependencies and scripts
+├── vite.config.js       # Vite configuration
+├── style-guide.md       # Design system guide
+└── README.md            # Project documentation
+```
+
+## Source Directory (`src/`)
+
+The `src/` directory contains all application source code:
+
+```
+src/
+├── assets/              # Images and SVG files
+│   ├── favicon-32x32.png
+│   ├── icon-dice.svg
+│   ├── pattern-divider-desktop.svg
+│   └── pattern-divider-mobile.svg
+├── components/          # React components
+│   └── card.jsx
+├── stylesheets/         # SASS stylesheets
+│   └── styles.scss
+└── main.jsx             # Application entry point
+```
+
+### Directory Breakdown
+
+<AccordionGroup>
+  <Accordion title="assets/ - Static Resources">
+    Contains all images, icons, and SVG files used in the application.
+    
+    **Files:**
+    - `favicon-32x32.png` - Application favicon
+    - `icon-dice.svg` - Dice icon for the generate button
+    - `pattern-divider-desktop.svg` - Decorative divider for desktop view
+    - `pattern-divider-mobile.svg` - Decorative divider for mobile view
+    
+    <Tip>
+      Assets are imported directly into components using ES6 imports:
+      ```javascript
+      import icon_dice from "../assets/icon-dice.svg"
+      ```
+    </Tip>
+  </Accordion>
+  
+  <Accordion title="components/ - React Components">
+    Houses all React component files.
+    
+    **Current components:**
+    - `card.jsx` - Main advice card component with API integration
+    
+    <Info>
+      The Card component includes:
+      - State management for advice data
+      - Loading state handling
+      - Fetch API integration
+      - useEffect hook for initial load
+    </Info>
+  </Accordion>
+  
+  <Accordion title="stylesheets/ - SASS Styles">
+    Contains all styling files written in SASS.
+    
+    **Files:**
+    - `styles.scss` - Main stylesheet with all component styles
+    
+    **Features:**
+    - CSS reset and global styles
+    - BEM-like naming conventions
+    - SASS nesting and variables
+    - Keyframe animations
+    - Responsive design
+  </Accordion>
+</AccordionGroup>
+
+## Key Files
+
+### main.jsx
+
+The application entry point that sets up React and renders the root component:
+
+```jsx src/main.jsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import Card from './components/card'
+import "./stylesheets/styles.scss"
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <Card />
+  </React.StrictMode>
+)
+```
+
+<Info>
+  **Key responsibilities:**
+  - Import and initialize React
+  - Import the main Card component
+  - Import global styles
+  - Render the application to the DOM
+  - Wrap in React.StrictMode for development checks
+</Info>
+
+### card.jsx
+
+The main component that displays advice and handles API interactions:
+
+```jsx src/components/card.jsx
+import icon_dice from "../assets/icon-dice.svg"
+import divisor from "../assets/pattern-divider-desktop.svg"
+import { useEffect, useState } from "react"
+
+const Card = () => {
+  const [advice, setAdvice] = useState({ id: 0, advice: "" })
+  const [isLoading, setIsLoading] = useState(true)
+
+  const handleAdvice = async () => {
+    setIsLoading(true)
+    await fetch("https://api.adviceslip.com/advice")
+      .then(response => response.json())
+      .then(data => {
+        const { slip } = data
+        setAdvice(slip)
+        setIsLoading(false)
+      })
+  }
+
+  useEffect(() => {
+    handleAdvice()
+  }, [])
+
+  return (
+    // JSX markup...
+  )
+}
+
+export default Card
+```
+
+<Card title="Component Features" icon="react">
+  - **State Management**: Uses `useState` for advice data and loading states
+  - **Side Effects**: Uses `useEffect` to fetch initial advice on mount
+  - **API Integration**: Fetches advice from Advice Slip API
+  - **Loading Animation**: Visual feedback during API calls
+  - **Event Handling**: Click handler for generating new advice
+</Card>
+
+### styles.scss
+
+The main stylesheet containing all application styles:
+
+**Features:**
+- Google Fonts integration (Outfit font family)
+- CSS reset
+- Card-based layout with BEM-like naming
+- HSL color system
+- Flexbox and absolute positioning
+- Smooth transitions and animations
+- Loading animation with rotation
+
+<CodeGroup>
+```scss Card Structure
+.card {
+  &-header { /* Advice number */ }
+  &-body { /* Advice text and divider */ }
+  &-footer { /* Generate button */ }
+}
+```
+
+```scss Color Palette
+background: hsl(218, 23%, 16%)    // Dark blue
+card: hsl(217, 19%, 24%)          // Dark grayish blue
+accent: hsl(150, 100%, 66%)       // Neon green
+text: hsl(193, 38%, 86%)          // Light cyan
+```
+</CodeGroup>
+
+## Public Directory
+
+The `public/` directory contains static assets served directly:
+
+```
+public/
+└── favicon.png         # Browser tab icon
+```
+
+<Note>
+  Files in the `public/` directory are served at the root path and don't go through the build process.
+</Note>
+
+## Entry HTML File
+
+The `index.html` file at the root serves as the entry point:
+
+```html index.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advisor Generator App</title>
+  </head>
+  <body>
+    <main id="root"></main>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+```
+
+## Build Output
+
+When you run `npm run build`, Vite creates a production-ready build:
+
+```
+dist/
+├── assets/              # Compiled and optimized assets
+│   ├── index-[hash].js  # Bundled JavaScript
+│   ├── index-[hash].css # Compiled CSS from SASS
+│   └── [images]         # Optimized images
+├── favicon.png          # Static assets from public/
+└── index.html           # Optimized HTML with asset links
+```
+
+<Check>
+  The build process:
+  - Compiles SASS to CSS
+  - Bundles and minifies JavaScript
+  - Optimizes images
+  - Generates content hashes for cache busting
+  - Tree-shakes unused code
+</Check>
+
+## Configuration Files
+
+<CardGroup cols={2}>
+  <Card title="package.json" icon="box">
+    Defines project metadata, dependencies, and npm scripts
+  </Card>
+  <Card title="vite.config.js" icon="bolt">
+    Configures Vite build tool and React plugin
+  </Card>
+  <Card title="style-guide.md" icon="palette">
+    Documents design system and color schemes
+  </Card>
+  <Card title=".gitignore" icon="git">
+    Specifies files to exclude from version control
+  </Card>
+</CardGroup>
+
+## Design Assets
+
+The `design/` directory contains reference designs and mockups for the project (typically from Frontend Mentor challenges).
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Development Setup" icon="wrench" href="/development/setup">
+    Learn how to set up your environment
+  </Card>
+  <Card title="Available Scripts" icon="terminal" href="/development/scripts">
+    Explore available npm commands
+  </Card>
+</CardGroup>

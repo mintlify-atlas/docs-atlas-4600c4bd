@@ -1,0 +1,112 @@
+---
+title: Introduction
+description: Learn about the Advice Generator app and what makes it a great learning project
+---
+
+The Advice Generator is a modern React application that fetches and displays random advice using the Advice Slip API. Built as a Frontend Mentor challenge, it demonstrates clean component architecture, API integration, and responsive design principles.
+
+## What is Advice Generator?
+
+Advice Generator is a simple yet elegant web application that delivers random pieces of advice at the click of a button. Each time you click the dice button, the app fetches a new piece of advice from the Advice Slip API and displays it in a beautifully designed card interface.
+
+<Card title="Live Demo" icon="globe" href="https://advice-generator-bay-xi.vercel.app/">
+  Try out the live application to see it in action
+</Card>
+
+## Key features
+
+The application showcases several important web development concepts:
+
+<CardGroup cols={2}>
+  <Card title="API integration" icon="plug">
+    Fetches advice from the Advice Slip API using modern async/await syntax
+  </Card>
+  <Card title="React hooks" icon="code">
+    Leverages useState and useEffect for state management and lifecycle handling
+  </Card>
+  <Card title="Responsive design" icon="mobile">
+    Mobile-first approach with designs for 375px and 1440px viewports
+  </Card>
+  <Card title="Loading states" icon="spinner">
+    Implements loading indicators for better user experience
+  </Card>
+</CardGroup>
+
+## Tech stack
+
+The project is built with modern web technologies:
+
+- **React 18.2** - Component-based UI library
+- **Vite** - Lightning-fast build tool and development server
+- **SASS** - CSS preprocessor for maintainable styles
+- **Advice Slip API** - Free API for random advice quotes
+
+<Note>
+  This project uses React 18's new `createRoot` API for improved rendering performance.
+</Note>
+
+## Project structure
+
+The application follows a clean, organized structure:
+
+```
+src/
+├── components/
+│   └── card.jsx          # Main card component
+├── stylesheets/
+│   └── styles.scss       # SASS styles
+├── assets/               # SVG icons and images
+└── main.jsx              # Application entry point
+```
+
+## What you'll learn
+
+By exploring this documentation, you'll understand:
+
+<Steps>
+  <Step title="Setting up the development environment">
+    Install dependencies and configure Vite for React development
+  </Step>
+  <Step title="Component architecture">
+    Build reusable components with React hooks and state management
+  </Step>
+  <Step title="API integration">
+    Fetch data from external APIs and handle loading states
+  </Step>
+  <Step title="Styling with SASS">
+    Implement responsive designs using CSS preprocessors
+  </Step>
+  <Step title="Deployment">
+    Deploy your application to production platforms like Vercel
+  </Step>
+</Steps>
+
+## Design specifications
+
+The project includes a comprehensive style guide:
+
+- **Typography**: Manrope font family with 800 weight
+- **Primary colors**: Light Cyan `hsl(193, 38%, 86%)` and Neon Green `hsl(150, 100%, 66%)`
+- **Neutral colors**: Dark Blue `hsl(218, 23%, 16%)` for backgrounds
+- **Font size**: 28px for quote text
+
+<Warning>
+  The Advice Slip API has rate limiting. Be mindful of request frequency during development.
+</Warning>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Get the app running locally in minutes
+  </Card>
+  <Card title="Card component" icon="window" href="/components/card">
+    Explore the main Card component implementation
+  </Card>
+  <Card title="API integration" icon="plug" href="/guides/api-integration">
+    Learn how the Advice Slip API integration works
+  </Card>
+  <Card title="Deployment" icon="cloud" href="/guides/deployment">
+    Deploy your own version to production
+  </Card>
+</CardGroup>

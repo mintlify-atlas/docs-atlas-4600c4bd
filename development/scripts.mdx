@@ -1,0 +1,375 @@
+---
+title: 'NPM Scripts'
+description: 'Available npm scripts and commands for development, building, and previewing the Advice Generator'
+icon: 'terminal'
+---
+
+## Available Scripts
+
+The Advice Generator project includes three main npm scripts defined in `package.json`:
+
+```json package.json
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  }
+}
+```
+
+## Development Scripts
+
+### `npm run dev`
+
+Starts the Vite development server with hot module replacement (HMR).
+
+<CodeGroup>
+```bash Terminal
+npm run dev
+```
+
+```bash Output
+VITE v3.1.0  ready in 500 ms
+
+➜  Local:   http://localhost:5173/
+➜  Network: use --host to expose
+```
+</CodeGroup>
+
+<Accordion title="What this script does">
+  **Features:**
+  - Starts a local development server
+  - Enables Hot Module Replacement (HMR) for instant updates
+  - Compiles SASS to CSS on the fly
+  - Provides detailed error messages in the browser
+  - Optimizes dependencies with pre-bundling
+  - Watches for file changes automatically
+  
+  **Default port:** 5173 (configurable in `vite.config.js`)
+</Accordion>
+
+<Tip>
+  **Use this script when:**
+  - Working on new features
+  - Debugging issues
+  - Testing UI changes
+  - Experimenting with styles
+</Tip>
+
+### Development Server Options
+
+You can customize the dev server with additional flags:
+
+<CodeGroup>
+```bash Custom Port
+npm run dev -- --port 3000
+```
+
+```bash Network Access
+npm run dev -- --host
+```
+
+```bash Open in Browser
+npm run dev -- --open
+```
+</CodeGroup>
+
+<Info>
+  The `--` separator tells npm to pass the following arguments directly to the Vite command.
+</Info>
+
+## Build Scripts
+
+### `npm run build`
+
+Creates an optimized production build of the application.
+
+<CodeGroup>
+```bash Terminal
+npm run build
+```
+
+```bash Output
+vite v3.1.0 building for production...
+✓ 150 modules transformed.
+dist/index.html                  0.44 kB
+dist/assets/icon-dice.4f8d91a0.svg    0.42 kB
+dist/assets/index.c5f4c0b2.css        1.52 kB / gzip: 0.68 kB
+dist/assets/index.e4b6f3a1.js        143.21 kB / gzip: 46.15 kB
+```
+</CodeGroup>
+
+<Accordion title="What this script does">
+  **Build Process:**
+  
+  1. **Code Compilation**
+     - Transpiles JSX to JavaScript
+     - Compiles SASS to optimized CSS
+     - Processes all imports and dependencies
+  
+  2. **Optimization**
+     - Minifies JavaScript and CSS
+     - Tree-shakes unused code
+     - Optimizes images and assets
+     - Generates content hashes for caching
+  
+  3. **Bundling**
+     - Combines modules into optimized chunks
+     - Splits vendor code for better caching
+     - Creates source maps (if configured)
+  
+  4. **Output**
+     - Generates production-ready files in `dist/`
+     - Creates an optimized `index.html`
+     - Copies static assets from `public/`
+</Accordion>
+
+<Check>
+  **Use this script when:**
+  - Preparing for deployment
+  - Testing production builds locally
+  - Analyzing bundle size
+  - Creating release artifacts
+</Check>
+
+### Build Output Structure
+
+After running the build command:
+
+```
+dist/
+├── index.html                      # Entry HTML with asset references
+├── favicon.png                     # Static assets from public/
+└── assets/
+    ├── index-[hash].js             # Bundled JavaScript
+    ├── index-[hash].css            # Compiled CSS from SASS
+    ├── icon-dice-[hash].svg        # Optimized SVG assets
+    └── pattern-divider-[hash].svg  # Other optimized assets
+```
+
+<Note>
+  The `[hash]` in filenames ensures proper cache invalidation when files change.
+</Note>
+
+## Preview Scripts
+
+### `npm run preview`
+
+Serves the production build locally for testing before deployment.
+
+<CodeGroup>
+```bash Terminal
+npm run preview
+```
+
+```bash Output
+➜  Local:   http://localhost:4173/
+➜  Network: use --host to expose
+```
+</CodeGroup>
+
+<Accordion title="What this script does">
+  **Purpose:**
+  - Serves files from the `dist/` directory
+  - Uses production build settings
+  - Tests production behavior locally
+  - Verifies build output before deployment
+  
+  **Requirements:**
+  - Must run `npm run build` first
+  - Serves static files only (no HMR)
+  - Uses different port than dev server (4173)
+</Accordion>
+
+<Warning>
+  **Important:** Always run `npm run build` before `npm run preview`. The preview command serves the pre-built files from the `dist/` directory.
+</Warning>
+
+### Preview Workflow
+
+```bash Complete workflow
+# 1. Build the production version
+npm run build
+
+# 2. Preview the build locally
+npm run preview
+
+# 3. Test in browser at http://localhost:4173
+```
+
+<Check>
+  **Use this script when:**
+  - Testing the production build
+  - Verifying optimizations
+  - Checking for production-only issues
+  - Final QA before deployment
+</Check>
+
+## Vite-Specific Commands
+
+While not defined as npm scripts, you can use these Vite commands directly:
+
+<CodeGroup>
+```bash Optimize Dependencies
+npx vite optimize
+```
+
+```bash Clear Cache
+npx vite --force
+```
+
+```bash Build with Report
+npx vite build --report
+```
+</CodeGroup>
+
+## Common Workflows
+
+<AccordionGroup>
+  <Accordion title="Development Workflow">
+    ```bash
+    # 1. Install dependencies (first time only)
+    npm install
+    
+    # 2. Start development server
+    npm run dev
+    
+    # 3. Make changes and test with HMR
+    # Files are watched automatically
+    
+    # 4. Stop server with Ctrl+C
+    ```
+  </Accordion>
+  
+  <Accordion title="Production Build Workflow">
+    ```bash
+    # 1. Create production build
+    npm run build
+    
+    # 2. Preview locally (optional)
+    npm run preview
+    
+    # 3. Deploy dist/ directory
+    # Use your preferred hosting platform
+    ```
+  </Accordion>
+  
+  <Accordion title="Testing Changes Workflow">
+    ```bash
+    # 1. Run development server
+    npm run dev
+    
+    # 2. Test in browser
+    
+    # 3. Build for production
+    npm run build
+    
+    # 4. Preview production build
+    npm run preview
+    
+    # 5. Compare dev and production behavior
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Port Already in Use">
+    **Problem:** Default port 5173 is already in use.
+    
+    **Solution:**
+    ```bash
+    # Use a different port
+    npm run dev -- --port 3000
+    ```
+    
+    Or kill the process using the port:
+    ```bash
+    # Find process using port 5173
+    lsof -ti:5173
+    
+    # Kill the process
+    kill -9 $(lsof -ti:5173)
+    ```
+  </Accordion>
+  
+  <Accordion title="Cached Dependencies Issues">
+    **Problem:** Changes not reflecting or build errors after updating dependencies.
+    
+    **Solution:**
+    ```bash
+    # Clear Vite cache and restart
+    rm -rf node_modules/.vite
+    npm run dev -- --force
+    ```
+  </Accordion>
+  
+  <Accordion title="SASS Compilation Errors">
+    **Problem:** SASS syntax errors or compilation failures.
+    
+    **Solution:**
+    1. Check SASS syntax in `src/stylesheets/styles.scss`
+    2. Ensure SASS is installed: `npm install sass`
+    3. Clear cache and rebuild:
+    ```bash
+    npm run build -- --force
+    ```
+  </Accordion>
+  
+  <Accordion title="Build Fails">
+    **Problem:** Production build fails with errors.
+    
+    **Solution:**
+    ```bash
+    # 1. Clear node_modules and reinstall
+    rm -rf node_modules package-lock.json
+    npm install
+    
+    # 2. Clear Vite cache
+    rm -rf node_modules/.vite dist
+    
+    # 3. Try building again
+    npm run build
+    ```
+  </Accordion>
+  
+  <Accordion title="Preview Shows Old Build">
+    **Problem:** Preview command shows outdated content.
+    
+    **Solution:**
+    ```bash
+    # Rebuild and preview
+    npm run build && npm run preview
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Performance Tips
+
+<CardGroup cols={2}>
+  <Card title="Fast Refresh" icon="bolt">
+    HMR updates are instant. Keep dev server running while coding.
+  </Card>
+  <Card title="Pre-bundling" icon="box">
+    Vite pre-bundles dependencies on first run. Subsequent starts are faster.
+  </Card>
+  <Card title="Lazy Loading" icon="download">
+    Use dynamic imports for code splitting in larger apps.
+  </Card>
+  <Card title="Build Analysis" icon="chart-line">
+    Use `--report` flag to analyze bundle size.
+  </Card>
+</CardGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Development Setup" icon="wrench" href="/development/setup">
+    Set up your development environment
+  </Card>
+  <Card title="Project Structure" icon="folder-tree" href="/development/project-structure">
+    Learn about the codebase organization
+  </Card>
+</CardGroup>

@@ -1,0 +1,338 @@
+---
+title: 'Styling System'
+description: 'SCSS architecture and design implementation for the Advice Generator'
+icon: 'palette'
+---
+
+## Overview
+
+The Advice Generator uses SCSS (Sass) for styling, implementing a card-centered design with responsive layout, custom animations, and a carefully chosen color scheme. All styles are defined in `src/stylesheets/styles.scss`.
+
+## Font Configuration
+
+The app uses the Outfit font family from Google Fonts:
+
+```scss
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap');
+```
+
+<Note>
+  The style guide originally specified Manrope with weight 800, but the implementation uses Outfit with weights 400 and 700.
+</Note>
+
+## Color Scheme
+
+The design follows a dark theme with neon green accents:
+
+### Primary Colors
+
+<ParamField path="Light Cyan" type="hsl(193, 38%, 86%)">
+  Used for the main advice text, providing good readability against the dark background.
+</ParamField>
+
+<ParamField path="Neon Green" type="hsl(150, 100%, 66%)">
+  Used for the advice ID header and the dice button. Creates a vibrant, attention-grabbing accent.
+</ParamField>
+
+### Neutral Colors
+
+<ParamField path="Dark Grayish Blue" type="hsl(217, 19%, 24%)">
+  Background color for the advice card itself.
+</ParamField>
+
+<ParamField path="Dark Blue" type="hsl(218, 23%, 16%)">
+  Background color for the entire body/page.
+</ParamField>
+
+```scss
+body {
+    background-color: hsl(218, 23%, 16%);
+}
+
+.card {
+    background-color: hsl(217, 19%, 24%);
+}
+```
+
+## Global Styles
+
+The stylesheet begins with a CSS reset:
+
+```scss
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: hsl(218, 23%, 16%);
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Outfit', sans-serif;
+}
+```
+
+This ensures consistent spacing across browsers and sets up the full-viewport background.
+
+## Card Layout
+
+### Main Card Container
+
+The card uses absolute positioning with transform centering:
+
+```scss
+.card {
+    background-color: hsl(217, 19%, 24%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    width: 90%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 50px hsla(220, 16%, 11%, 0.5);
+}
+```
+
+**Key features:**
+- Perfectly centered on the page using transform translation
+- Responsive width at 90% with a maximum of 500px
+- Soft shadow for depth: `0 0 50px hsla(220, 16%, 11%, 0.5)`
+- Rounded corners with 10px border radius
+
+### Card Header
+
+```scss
+&-header {
+    padding: 40px 20px 0 20px;
+    h1 {
+        color: hsl(150, 100%, 66%);
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 5px;
+        font-size: 1rem;
+        font-weight: lighter;
+    }
+}
+```
+
+**Styling details:**
+- Neon green text color
+- Uppercase transformation
+- Wide letter spacing (5px) for emphasis
+- Lighter font weight for a modern look
+
+### Card Body
+
+```scss
+&-body {
+    padding: 0 20px;
+    min-height: 250px;
+    position: relative;
+    
+    p {
+        font-size: 28px;
+        text-align: center;
+        color: hsl(193, 38%, 86%);
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: translateY(-30%) translateX(-50%);
+        width: 90%;
+    }
+
+    img {
+        margin: 20px 0;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+}
+```
+
+**Layout strategy:**
+- Fixed minimum height of 250px to prevent layout shifts
+- Advice text uses absolute positioning for vertical centering
+- 28px font size for comfortable reading
+- Divider image positioned at the bottom with full width
+
+### Card Footer (Button)
+
+```scss
+&-footer {
+    position: relative;
+    padding: 20px;
+    
+    button {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        border: none;
+        background-color: hsl(150, 100%, 66%);
+        padding: 0;
+        margin: 0;
+        font-size: 0;
+        position: absolute;
+        bottom: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        cursor: pointer;
+        outline: none;
+        transition: 0.5s;
+
+        &:hover {
+            background-color: hsl(150, 100%, 75%);
+            box-shadow: 0 0 40px hsl(150, 100%, 75%);
+        }
+    }
+}
+```
+
+**Button design:**
+- Perfect circle: 70x70px with 50% border radius
+- Positioned to overlap card edge: `bottom: -30px`
+- Horizontally centered with transform
+- Neon green background with smooth 0.5s transitions
+- Hover effect: lighter shade with glowing shadow
+
+## Animations
+
+### Loading Animation
+
+When fetching new advice, the button rotates:
+
+```scss
+button.load {
+    animation: load 0.3s infinite;
+}
+
+@keyframes load {
+    0% {
+        transform: translateX(-50%) rotate(0);
+    }
+    25% {
+        transform: translateX(-50%) rotate(45deg);
+    }
+    50% {
+        transform: translateX(-50%) rotate(90deg);
+    }
+    75% {
+        transform: translateX(-50%) rotate(135deg);
+    }
+    100% {
+        transform: translateX(-50%) rotate(180deg);
+    }
+}
+```
+
+**Animation details:**
+- Duration: 0.3 seconds
+- Infinite loop while loading
+- Rotates 180 degrees in incremental steps
+- Maintains horizontal centering with `translateX(-50%)`
+
+<Warning>
+  The transform must include `translateX(-50%)` in every keyframe to maintain the button's centered position during rotation.
+</Warning>
+
+### Hover Effects
+
+The button has a smooth hover interaction:
+
+```scss
+&:hover {
+    background-color: hsl(150, 100%, 75%);
+    box-shadow: 0 0 40px hsl(150, 100%, 75%);
+}
+```
+
+This creates a glowing effect:
+- Lightens the green from 66% to 75% lightness
+- Adds a 40px glow shadow in the same color
+- Smooth transition thanks to `transition: 0.5s` on the button
+
+## Responsive Design
+
+The card adapts to different screen sizes:
+
+```scss
+width: 90%;
+max-width: 500px;
+```
+
+- **Mobile devices**: Card takes up 90% of screen width
+- **Larger screens**: Card caps at 500px width and remains centered
+- **All viewports**: Vertical centering maintained with transform technique
+
+<Note>
+  The style guide specified mobile (375px) and desktop (1440px) breakpoints, but the implementation uses a fluid responsive approach without media queries.
+</Note>
+
+## Additional Animations
+
+The stylesheet includes two additional (currently unused) animations:
+
+### Blink Animation
+
+```scss
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+}
+```
+
+Could be used for cursor or attention-grabbing effects.
+
+### Typing Animation
+
+```scss
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+```
+
+Could be used for typewriter-style text reveals.
+
+## SCSS Nesting
+
+The stylesheet leverages SCSS's nesting capabilities with the BEM-like modifier syntax:
+
+```scss
+.card {
+    // card styles
+    
+    &-header {
+        // expands to .card-header
+    }
+    
+    &-body {
+        // expands to .card-body
+    }
+    
+    &-footer {
+        // expands to .card-footer
+    }
+}
+```
+
+This keeps related styles organized and reduces repetition.
+
+## Related Documentation
+
+<CardGroup cols={2}>
+  <Card title="Card Component" icon="square" href="/components/card">
+    The React component that uses these styles
+  </Card>
+  <Card title="Customization Guide" icon="wrench" href="/guides/customization">
+    Learn how to customize colors and styles
+  </Card>
+</CardGroup>

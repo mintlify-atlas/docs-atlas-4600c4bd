@@ -1,0 +1,213 @@
+---
+title: 'Card Component'
+description: 'The main React component that fetches and displays random advice'
+icon: 'square'
+---
+
+## Overview
+
+The Card component is the core UI element of the Advice Generator app. It manages state for advice data and loading status, fetches advice from the Advice Slip API, and renders the advice card interface.
+
+## Component Structure
+
+The Card component is located at `src/components/card.jsx` and is a functional React component using hooks.
+
+### Imports
+
+```jsx
+import icon_dice from "../assets/icon-dice.svg"
+import divisor from "../assets/pattern-divider-desktop.svg"
+import { useEffect, useState } from "react"
+```
+
+The component imports:
+- Dice icon SVG for the generate button
+- Pattern divider SVG for visual separation
+- React hooks for state management and side effects
+
+## State Management
+
+The component uses two state variables:
+
+<ParamField path="advice" type="object" default="{ id: 0, advice: '' }">
+  Stores the current advice data from the API
+  - `id`: The advice slip ID number
+  - `advice`: The advice text content
+</ParamField>
+
+<ParamField path="isLoading" type="boolean" default="true">
+  Tracks whether an API request is in progress. Used to show loading animation on the button.
+</ParamField>
+
+```jsx
+const [advice, setAdvice] = useState({ id: 0, advice: "" })
+const [isLoading, setIsLoading] = useState(true);
+```
+
+## API Integration
+
+### handleAdvice Function
+
+The `handleAdvice` function is responsible for fetching new advice from the API:
+
+```jsx
+const handleAdvice = async () => {
+    setIsLoading(true)
+    await fetch("https://api.adviceslip.com/advice")
+        .then(response => response.json())
+        .then(data => {
+            const { slip } = data
+            setAdvice(slip)
+            setIsLoading(false);
+        })
+}
+```
+
+**Flow:**
+1. Sets `isLoading` to `true` to trigger the button animation
+2. Fetches advice from `https://api.adviceslip.com/advice`
+3. Parses the JSON response
+4. Extracts the `slip` object containing `id` and `advice`
+5. Updates the `advice` state
+6. Sets `isLoading` to `false` to stop the animation
+
+<Note>
+  The function is marked as `async` and uses `await` to ensure the loading state is maintained throughout the entire fetch operation.
+</Note>
+
+## useEffect Hook
+
+The component uses `useEffect` to fetch initial advice when the component mounts:
+
+```jsx
+useEffect(() => {
+    handleAdvice()
+}, [])
+```
+
+The empty dependency array `[]` ensures this runs only once on component mount, loading the first piece of advice automatically.
+
+## Rendering Logic
+
+The component renders a three-part card structure:
+
+### Card Header
+
+```jsx
+<div className="card-header">
+    <h1>ADVICE # <span>{ advice.id }</span></h1>
+</div>
+```
+
+Displays the advice ID number in uppercase format (e.g., "ADVICE # 117").
+
+### Card Body
+
+```jsx
+<div className="card-body">
+    <p><q>{ advice.advice }</q></p>
+    <img src={ divisor } alt="Divider" />
+</div>
+```
+
+Shows:
+- The advice text wrapped in semantic `<q>` tags for quotation
+- A decorative divider image at the bottom
+
+### Card Footer
+
+```jsx
+<div className="card-footer">
+    <button 
+        type="button" 
+        onClick={ () => handleAdvice() } 
+        className={`${isLoading ? "load" : ""}`}
+    >
+        <img src={ icon_dice } alt="Icon button" />
+        <span style={ { display: "none" } }>Click to generate</span>
+    </button> 
+</div>
+```
+
+**Button features:**
+- Calls `handleAdvice()` on click to fetch new advice
+- Conditionally applies the `load` class when `isLoading` is true
+- Contains a dice icon image
+- Includes hidden text for accessibility
+
+<Note>
+  The `load` class triggers a rotation animation defined in the SCSS, providing visual feedback during API requests.
+</Note>
+
+## Complete Component Code
+
+```jsx src/components/card.jsx
+import icon_dice from "../assets/icon-dice.svg"
+import divisor from "../assets/pattern-divider-desktop.svg"
+import { useEffect, useState } from "react"
+
+const Card = () => {
+    
+    const [advice, setAdvice] = useState({ id: 0, advice: "" })
+    const [isLoading, setIsLoading] = useState(true);
+
+    const handleAdvice = async () => {
+        setIsLoading(true)
+        await fetch("https://api.adviceslip.com/advice")
+            .then(response => response.json())
+            .then(data => {
+                const { slip } = data
+                setAdvice(slip)
+                setIsLoading(false);
+            })
+    }
+
+    useEffect(() => {
+        handleAdvice()
+    }, [])
+    
+
+    return (
+        <div className="card">
+            <div className="card-header">
+                <h1>ADVICE # <span>{ advice.id }</span></h1>
+            </div>
+            <div className="card-body">
+                <p><q>{ advice.advice }</q></p>
+                <img src={ divisor } alt="Divider" />
+            </div>
+            <div className="card-footer">
+                <button 
+                    type="button" 
+                    onClick={ () => handleAdvice() } 
+                    className={`${isLoading ? "load" : ""}`}
+                >
+                    <img src={ icon_dice } alt="Icon button" />
+                    <span style={ { display: "none" } }>Click to generate</span>
+                </button> 
+            </div>
+        </div>
+    )
+}
+
+export default Card
+```
+
+## Key Features
+
+- **Automatic Loading**: Fetches advice immediately on component mount
+- **User Interaction**: Click the dice button to get new advice
+- **Loading States**: Visual feedback during API requests via button animation
+- **Error Handling**: Currently relies on API reliability (no explicit error handling)
+- **Accessibility**: Hidden text for screen readers on the button
+
+## Related Documentation
+
+<CardGroup cols={2}>
+  <Card title="Styling System" icon="palette" href="/components/styling">
+    Learn about the SCSS styles applied to this component
+  </Card>
+  <Card title="API Integration" icon="plug" href="/guides/api-integration">
+    Details about the Advice Slip API
+  </Card>
+</CardGroup>

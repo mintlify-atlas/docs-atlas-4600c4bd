@@ -1,0 +1,435 @@
+---
+title: "Deployment"
+description: "Deploy the Advice Generator to production"
+---
+
+## Overview
+
+The Advice Generator is built with Vite and can be deployed to any static hosting platform. This guide covers the build process and deployment to popular platforms including Vercel, Netlify, and GitHub Pages.
+
+## Build Process
+
+### Development Mode
+
+Run the development server locally (package.json:7):
+
+```bash
+npm run dev
+```
+
+This starts the Vite development server with hot module replacement.
+
+### Production Build
+
+Create an optimized production build (package.json:8):
+
+```bash
+npm run build
+```
+
+This command:
+- Bundles all JavaScript and CSS
+- Optimizes and minifies assets
+- Outputs files to the `dist/` directory
+
+### Preview Build
+
+Preview the production build locally (package.json:9):
+
+```bash
+npm run preview
+```
+
+<Tip>
+Always test your production build locally before deploying to catch any build-specific issues.
+</Tip>
+
+## Vite Configuration
+
+The project uses a minimal Vite configuration (vite.config.js):
+
+```javascript
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()]
+})
+```
+
+### Custom Configuration
+
+You can customize the build output directory or add optimization settings:
+
+<CodeGroup>
+
+```javascript Base Path
+// For deploying to a subdirectory
+export default defineConfig({
+  base: '/advice-generator/',
+  plugins: [react()]
+})
+```
+
+```javascript Build Options
+// Custom build directory and options
+export default defineConfig({
+  plugins: [react()],
+  build: {
+    outDir: 'build',
+    sourcemap: false,
+    minify: 'terser'
+  }
+})
+```
+
+</CodeGroup>
+
+## Deployment to Vercel
+
+<Note>
+The official deployment is hosted on Vercel: [https://advice-generator-bay-xi.vercel.app/](https://advice-generator-bay-xi.vercel.app/)
+</Note>
+
+### Deploy with Vercel CLI
+
+<Steps>
+  <Step title="Install Vercel CLI">
+    ```bash
+    npm install -g vercel
+    ```
+  </Step>
+  
+  <Step title="Login to Vercel">
+    ```bash
+    vercel login
+    ```
+  </Step>
+  
+  <Step title="Deploy">
+    ```bash
+    vercel
+    ```
+    Follow the prompts to configure your project.
+  </Step>
+  
+  <Step title="Deploy to Production">
+    ```bash
+    vercel --prod
+    ```
+  </Step>
+</Steps>
+
+### Deploy with Git Integration
+
+<Steps>
+  <Step title="Push to GitHub">
+    Push your code to a GitHub repository
+  </Step>
+  
+  <Step title="Import to Vercel">
+    Go to [vercel.com](https://vercel.com) and import your repository
+  </Step>
+  
+  <Step title="Configure Build Settings">
+    Vercel automatically detects Vite. Settings are:
+    - **Framework**: Vite
+    - **Build Command**: `npm run build`
+    - **Output Directory**: `dist`
+  </Step>
+  
+  <Step title="Deploy">
+    Click "Deploy" and Vercel will build and deploy your app
+  </Step>
+</Steps>
+
+<Tip>
+Vercel automatically deploys on every push to your main branch and creates preview deployments for pull requests.
+</Tip>
+
+## Deployment to Netlify
+
+### Deploy with Netlify CLI
+
+<Steps>
+  <Step title="Install Netlify CLI">
+    ```bash
+    npm install -g netlify-cli
+    ```
+  </Step>
+  
+  <Step title="Build the Project">
+    ```bash
+    npm run build
+    ```
+  </Step>
+  
+  <Step title="Deploy">
+    ```bash
+    netlify deploy --prod --dir=dist
+    ```
+  </Step>
+</Steps>
+
+### Deploy with Git Integration
+
+<Steps>
+  <Step title="Connect Repository">
+    Go to [netlify.com](https://netlify.com) and connect your Git repository
+  </Step>
+  
+  <Step title="Configure Build Settings">
+    - **Build Command**: `npm run build`
+    - **Publish Directory**: `dist`
+  </Step>
+  
+  <Step title="Deploy">
+    Click "Deploy site" to start the deployment
+  </Step>
+</Steps>
+
+### Create netlify.toml
+
+Add a configuration file for consistent deployments:
+
+```toml netlify.toml
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+```
+
+## Deployment to GitHub Pages
+
+<Warning>
+GitHub Pages serves from a subdirectory by default. You need to configure the base path in vite.config.js.
+</Warning>
+
+### Configure Base Path
+
+Update vite.config.js:
+
+```javascript
+export default defineConfig({
+  base: '/advice-generator/', // Replace with your repo name
+  plugins: [react()]
+})
+```
+
+### Manual Deployment
+
+<Steps>
+  <Step title="Install gh-pages">
+    ```bash
+    npm install --save-dev gh-pages
+    ```
+  </Step>
+  
+  <Step title="Add Deploy Script">
+    Add to package.json scripts:
+    ```json
+    "deploy": "npm run build && gh-pages -d dist"
+    ```
+  </Step>
+  
+  <Step title="Deploy">
+    ```bash
+    npm run deploy
+    ```
+  </Step>
+</Steps>
+
+### GitHub Actions Deployment
+
+Create .github/workflows/deploy.yml:
+
+```yaml
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build
+        run: npm run build
+      
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+```
+
+## Environment Variables
+
+<Note>
+The Advice Generator doesn't currently use environment variables, but you may need them for custom configurations.
+</Note>
+
+### Vite Environment Variables
+
+Create a .env file for environment-specific settings:
+
+```bash .env
+VITE_API_URL=https://api.adviceslip.com
+VITE_APP_TITLE=Advice Generator
+```
+
+Access in your code:
+
+```javascript
+const apiUrl = import.meta.env.VITE_API_URL
+```
+
+<Warning>
+Only variables prefixed with `VITE_` are exposed to your client-side code.
+</Warning>
+
+## Build Optimization
+
+### Minimize Bundle Size
+
+The current build is already optimized, but you can further reduce bundle size:
+
+```javascript vite.config.js
+export default defineConfig({
+  plugins: [react()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom']
+        }
+      }
+    }
+  }
+})
+```
+
+### Enable Compression
+
+Add compression plugin:
+
+```bash
+npm install --save-dev vite-plugin-compression
+```
+
+```javascript vite.config.js
+import compression from 'vite-plugin-compression'
+
+export default defineConfig({
+  plugins: [
+    react(),
+    compression({ algorithm: 'gzip' })
+  ]
+})
+```
+
+## Dependencies
+
+The project has minimal dependencies (package.json):
+
+<Tabs>
+  <Tab title="Dependencies">
+    - react: ^18.2.0
+    - react-dom: ^18.2.0
+    - sass: ^1.55.0
+  </Tab>
+  
+  <Tab title="Dev Dependencies">
+    - @types/react: ^18.0.17
+    - @types/react-dom: ^18.0.6
+    - @vitejs/plugin-react: ^2.1.0
+    - vite: ^3.1.0
+  </Tab>
+</Tabs>
+
+## Deployment Checklist
+
+<Steps>
+  <Step title="Test Locally">
+    - Run `npm run build`
+    - Run `npm run preview`
+    - Test all functionality
+  </Step>
+  
+  <Step title="Check Configuration">
+    - Verify base path in vite.config.js
+    - Ensure all assets are using relative paths
+    - Check that SCSS compiles correctly
+  </Step>
+  
+  <Step title="Optimize">
+    - Minimize unused dependencies
+    - Ensure images are optimized
+    - Check bundle size
+  </Step>
+  
+  <Step title="Deploy">
+    - Choose your platform (Vercel, Netlify, GitHub Pages)
+    - Configure build settings
+    - Deploy and verify
+  </Step>
+  
+  <Step title="Verify">
+    - Test the live site
+    - Check API integration
+    - Test on mobile devices
+    - Verify loading animations work
+  </Step>
+</Steps>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Build fails with SCSS errors">
+    Ensure SASS is installed:
+    ```bash
+    npm install sass
+    ```
+  </Accordion>
+  
+  <Accordion title="Assets not loading after deployment">
+    Check your base path configuration in vite.config.js. For GitHub Pages or subdirectory deployments, you need to set the correct base path.
+  </Accordion>
+  
+  <Accordion title="API requests failing">
+    The Advice Slip API uses HTTPS. Ensure your deployment also uses HTTPS (most platforms do by default).
+  </Accordion>
+  
+  <Accordion title="White screen after deployment">
+    - Check browser console for errors
+    - Verify the build output in the dist/ directory
+    - Ensure the correct publish directory is configured
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="API Integration" icon="plug" href="/guides/api-integration">
+    Learn about the Advice Slip API
+  </Card>
+  <Card title="Customization" icon="palette" href="/guides/customization">
+    Customize your deployed application
+  </Card>
+</CardGroup>
