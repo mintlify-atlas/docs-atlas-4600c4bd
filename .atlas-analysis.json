@@ -1,0 +1,57 @@
+{
+  "projectType": "frontend",
+  "projectName": "Advice Generator",
+  "projectDescription": "A React application that fetches and displays random advice from the Advice Slip API with a clean, modern UI.",
+  "theme": "almond",
+  "primaryColor": "#52ffa8",
+  "lightColor": "#cee3e9",
+  "darkColor": "#1f2632",
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get Started",
+        "pages": [
+          "introduction",
+          "quickstart"
+        ]
+      },
+      {
+        "group": "Components",
+        "pages": [
+          "components/card",
+          "components/styling"
+        ]
+      },
+      {
+        "group": "Guides",
+        "pages": [
+          "guides/api-integration",
+          "guides/customization",
+          "guides/deployment"
+        ]
+      },
+      {
+        "group": "Development",
+        "pages": [
+          "development/setup",
+          "development/project-structure",
+          "development/scripts"
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Fetches random advice from Advice Slip API",
+    "Mobile-first responsive design",
+    "Loading state with animated dice button",
+    "Clean card-based UI with SCSS styling",
+    "Built with React 18 and Vite"
+  ],
+  "publicApiSurface": [
+    "Card component - Main advice display component",
+    "handleAdvice() - Fetches advice from API",
+    "useEffect hook - Initial advice loading",
+    "useState for advice state management",
+    "SCSS styling system with HSL color scheme"
+  ]
+}
